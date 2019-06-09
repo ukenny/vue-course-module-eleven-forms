@@ -120,51 +120,60 @@
           </b-dropdown>
         </div>
       </b-form-row>
+      <app-switch v-model="dataSwitch"></app-switch>
       <div class="col-xs-12" style="text-align:center;">
-        <button class="btn btn-success">Submit!</button>
+        <button
+          class="btn btn-success"
+          @click.prevent="complaintSubmitted($event)"
+        >
+          Submit!
+        </button>
       </div>
       <hr />
-      <b-form-row>
-        <div
-          class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3"
-        >
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4>Your Data</h4>
-            </div>
-            <div class="panel-body" style="align: text-align: center">
-              <p>Mail: {{ userData.email }}</p>
-              <p>Password: {{ userData.password }}</p>
-              <p>Age: {{ userData.age }}</p>
-              <p style="white-space: pre">
-                Message:
-                <i style="text-align: right">
-                  {{ message }}
-                </i>
-              </p>
-              <p>
-                <strong>Send Mail?</strong>
-              </p>
-              <ul>
-                <li v-for="item in sendMail" v-bind:key="item">
-                  {{ item }}
-                </li>
-              </ul>
-              <p>Gender: {{ genderSelection }}</p>
-              <p>Priority: {{ priorityLevel }}</p>
-              <p>Switched:</p>
-            </div>
+      <div
+        v-if="isSubmitted"
+        class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3"
+      >
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>Your Data</h4>
+          </div>
+          <div class="panel-body" style="align: text-align: center">
+            <p>Mail: {{ userData.email }}</p>
+            <p>Password: {{ userData.password }}</p>
+            <p>Age: {{ userData.age }}</p>
+            <p style="white-space: pre">
+              Message:
+              <i style="text-align: right">
+                {{ message }}
+              </i>
+            </p>
+            <p>
+              <strong>Send Mail?</strong>
+            </p>
+            <ul>
+              <li v-for="item in sendMail" v-bind:key="item">
+                {{ item }}
+              </li>
+            </ul>
+            <p>Gender: {{ genderSelection }}</p>
+            <p>Priority: {{ priorityLevel }}</p>
+            <p>Switched: {{ dataSwitch }}</p>
           </div>
         </div>
-      </b-form-row>
+      </div>
     </b-form>
   </b-container>
 </template>
 
 <script>
+import Switch from "./components/Switch.vue";
+
 export default {
   name: "app",
-  components: {},
+  components: {
+    "app-switch": Switch
+  },
   data: function() {
     return {
       userData: {
@@ -181,12 +190,17 @@ export default {
         { text: "Male", value: "male" },
         { text: "Female", value: "female" },
         { text: "Prefer Not To Say", value: "other" }
-      ]
+      ],
+      dataSwitch: true,
+      isSubmitted: false
     };
   },
   methods: {
     priorityClicked(event) {
       this.priorityLevel = event.target.text;
+    },
+    complaintSubmitted() {
+      this.isSubmitted = true;
     }
   }
 };

@@ -10,5 +10,6 @@ Vue.use(PortalVue);
 Vue.use(BootstrapVue);
 
 new Vue({
-  render: h => h(App)
+  render: h => h(App),
+  components: {}
 }).$mount("#app");
