@@ -13,7 +13,11 @@
         label="Enter your email:"
         label-for="email"
       >
-        <b-form-input v-model="userData.email" id="emal"></b-form-input>
+        <b-form-input
+          v-model="userData.email"
+          type="email"
+          id="emal"
+        ></b-form-input>
       </b-form-group>
       <b-form-group
         id="fieldset-horizontal-2"
@@ -22,7 +26,11 @@
         label="Enter your password:"
         label-for="password"
       >
-        <b-form-input v-model="userData.password" id="password"></b-form-input>
+        <b-form-input
+          v-model.lazy="userData.password"
+          type="password"
+          id="password"
+        ></b-form-input>
       </b-form-group>
       <b-form-group
         id="fieldset-horizontal-3"
@@ -34,7 +42,7 @@
         <b-form-input
           min="18"
           max="120"
-          v-model="userData.age"
+          v-model.number="userData.age"
           type="number"
           id="age"
         ></b-form-input>
@@ -51,15 +59,16 @@
           rows="2"
           max-rows="3"
           no-resize
-          placeholder="My problem is that..."
+          :placeholder="messagePlaceholder"
           id="message"
+          v-model.lazy="message"
         ></b-textarea>
       </b-form-group>
       <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
         <b-form-group>
           <b-form-checkbox
             id="sendemail"
-            v-model="sendEmail"
+            v-model="sendMail"
             name="SendMail"
             value="send_email"
             unchecked-value="do_not_send_email"
@@ -67,7 +76,7 @@
           >
           <b-form-checkbox
             id="sendInfoMail"
-            v-model="sendInfoMail"
+            v-model="sendMail"
             name="SendInfoMail"
             value="send_info_mail"
             unchecked-value="do_not_send_info_mail"
@@ -109,12 +118,6 @@
               >Critical</b-dropdown-item
             >
           </b-dropdown>
-          <div class="col-xs-2">
-            <p>
-              Current Priority Level:
-              <i>{{ priorityLevel }}</i>
-            </p>
-          </div>
         </div>
       </b-form-row>
       <div class="col-xs-12" style="text-align:center;">
@@ -133,15 +136,22 @@
               <p>Mail: {{ userData.email }}</p>
               <p>Password: {{ userData.password }}</p>
               <p>Age: {{ userData.age }}</p>
-              <p>Message:</p>
+              <p style="white-space: pre">
+                Message:
+                <i style="text-align: right">
+                  {{ message }}
+                </i>
+              </p>
               <p>
                 <strong>Send Mail?</strong>
               </p>
               <ul>
-                <li></li>
+                <li v-for="item in sendMail" v-bind:key="item">
+                  {{ item }}
+                </li>
               </ul>
-              <p>Gender:</p>
-              <p>Priority:</p>
+              <p>Gender: {{ genderSelection }}</p>
+              <p>Priority: {{ priorityLevel }}</p>
               <p>Switched:</p>
             </div>
           </div>
@@ -162,9 +172,10 @@ export default {
         password: "",
         age: 18
       },
+      message: "",
+      messagePlaceholder: "My problem is that...",
+      sendMail: [],
       priorityLevel: "Low",
-      sendEmail: "do_not_send_email",
-      sendInfoMail: "do_not_send_info_mail",
       genderSelection: "other",
       options: [
         { text: "Male", value: "male" },
