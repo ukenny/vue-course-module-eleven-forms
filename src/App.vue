@@ -13,16 +13,16 @@
         label="Enter your email:"
         label-for="email"
       >
-        <b-form-input id="emal"></b-form-input>
+        <b-form-input v-model="userData.email" id="emal"></b-form-input>
       </b-form-group>
       <b-form-group
         id="fieldset-horizontal-2"
         label-cols-sm="2"
-        description="Please provide your name."
-        label="Enter your name:"
-        label-for="name"
+        description="Please provide your password."
+        label="Enter your password:"
+        label-for="password"
       >
-        <b-form-input id="name"></b-form-input>
+        <b-form-input v-model="userData.password" id="password"></b-form-input>
       </b-form-group>
       <b-form-group
         id="fieldset-horizontal-3"
@@ -31,7 +31,13 @@
         label="Enter your age:"
         label-for="age"
       >
-        <b-form-input type="number" id="age"></b-form-input>
+        <b-form-input
+          min="18"
+          max="120"
+          v-model="userData.age"
+          type="number"
+          id="age"
+        ></b-form-input>
       </b-form-group>
       <b-form-group
         id="fieldset-horizontal-4"
@@ -123,10 +129,10 @@
             <div class="panel-heading">
               <h4>Your Data</h4>
             </div>
-            <div class="panel-body">
-              <p>Mail:</p>
-              <p>Password:</p>
-              <p>Age:</p>
+            <div class="panel-body" style="align: text-align: center">
+              <p>Mail: {{ userData.email }}</p>
+              <p>Password: {{ userData.password }}</p>
+              <p>Age: {{ userData.age }}</p>
               <p>Message:</p>
               <p>
                 <strong>Send Mail?</strong>
@@ -151,6 +157,11 @@ export default {
   components: {},
   data: function() {
     return {
+      userData: {
+        email: "",
+        password: "",
+        age: 18
+      },
       priorityLevel: "Low",
       sendEmail: "do_not_send_email",
       sendInfoMail: "do_not_send_info_mail",
@@ -187,5 +198,8 @@ input[type="number"] {
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
+}
+.panel-body {
+  font-size: 1.4vw;
 }
 </style>
